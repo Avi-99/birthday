@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday! 💖 Sparkly Dreamy Surprise</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for cute icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;600&family=Great+Vibes&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pastelPink: '#FFD1DC',
+                        pastelRose: '#FFB6C1',
+                        pastelLavender: '#E6E6FA',
+                        pastelPurple: '#D8BFD8',
+                        pastelMint: '#E0F8E7',
+                        pastelGold: '#FFF0F5',
+                        dreamyAccent: '#FFB3BA'
+                    },
+                    fontFamily: {
+                        cursive: ['"Great Vibes"', 'cursive'],
+                        cute: ['"Fredoka"', 'sans-serif'],
+                        body: ['"Nunito"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Custom Customizations & Keyframe Animations */
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #e6e6fa 50%, #e0f8e7 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        /* Glassmorphism Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 20px 40px rgba(255, 182, 193, 0.25);
+        }
+
+        /* Envelope CSS Animation & FX */
+        .envelope-wrapper {
+            perspective: 1000px;
+        }
+
+        .envelope {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            background-color: #ffb6c1;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 15px 35px rgba(255, 105, 180, 0.3);
+            cursor: pointer;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        @media (min-width: 640px) {
+            .envelope {
+                width: 420px;
+                height: 280px;
+            }
+        }
+
+        .envelope:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(255, 105, 180, 0.4);
+        }
+
+        /* Flap Top Triangle */
+        .envelope .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 130px solid #ffa0b4;
+            transform-origin: top;
+            transition: transform 0.6s ease-in-out, z-index 0.2s ease;
+            z-index: 4;
+        }
+
+        @media (min-width: 640px) {
+            .envelope .flap {
+                border-left: 210px solid transparent;
+                border-right: 210px solid transparent;
+                border-top: 160px solid #ffa0b4;
+            }
+        }
+
+        /* Envelope Inner Pocket Side/Bottom Triangles */
+        .envelope .pocket {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 160px solid #ffd1dc;
+            border-right: 160px solid #ffd1dc;
+            border-bottom: 110px solid #fca5b7;
+            border-radius: 0 0 15px 15px;
+            z-index: 3;
+        }
+
+        @media (min-width: 640px) {
+            .envelope .pocket {
+                border-left: 210px solid #ffd1dc;
+                border-right: 210px solid #ffd1dc;
+                border-bottom: 140px solid #fca5b7;
+            }
+        }
+
+        /* Envelope Letter inside */
+        .envelope .letter {
+            position: absolute;
+            bottom: 10px;
+            left: 5%;
+            width: 90%;
+            height: 85%;
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.8s ease-in-out, opacity 0.5s ease;
+            z-index: 2;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        /* Open State classes */
+        .envelope.open .flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .envelope.open .letter {
+            transform: translateY(-120px) scale(1.05);
+            z-index: 5;
+        }
+
+        @media (min-width: 640px) {
+            .envelope.open .letter {
+                transform: translateY(-150px) scale(1.08);
+            }
+        }
+
+        /* Floating Animation */
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(1.5deg); }
+        }
+
+        .animate-float {
+            animation: gentleFloat 4s ease-in-out infinite;
+        }
+
+        /* Glow Pulsing Effect */
+        @keyframes softGlow {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(255, 182, 193, 0.8)); }
+            50% { filter: drop-shadow(0 0 25px rgba(255, 105, 180, 0.9)); }
+        }
+
+        .glow-effect {
+            animation: softGlow 2.5s infinite;
+        }
+
+        /* Canvas Overlay */
+        #fxCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 30;
+        }
+
+        /* Polaroid Photo Card styling */
+        .polaroid {
+            background: white;
+            padding: 12px 12px 25px 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .polaroid:hover {
+            transform: scale(1.05) rotate(0deg) !important;
+            box-shadow: 0 15px 35px rgba(255, 105, 180, 0.3);
+            z-index: 10;
+        }
+
+        /* Smooth Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffeef8;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ffb6c1;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="relative text-gray-700 antialiased selection:bg-pink-200">
+
+    <!-- Interactive Canvas Layer for Stars, Hearts, Butterflies & Fireworks -->
+    <canvas id="fxCanvas"></canvas>
+
+    <!-- Floating Audio Control Widget -->
+    <div class="fixed top-4 right-4 z-50 flex items-center gap-2">
+        <button id="musicToggle" class="glass-card text-pink-600 px-4 py-2.5 rounded-full flex items-center gap-2 shadow-lg hover:scale-105 active:scale-95 transition-all text-sm font-cute font-semibold">
+            <i class="fa-solid fa-music animate-spin" style="animation-duration: 5s;" id="musicIcon"></i>
+            <span id="musicText">Play Music</span>
+        </button>
+        <button id="fxToggle" title="Toggle FX Intensity" class="glass-card text-purple-600 p-2.5 rounded-full flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 transition-all w-10 h-10">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+        </button>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <main class="min-h-screen flex flex-col items-center justify-center px-4 py-12 relative z-10">
+
+        <!-- STAGE 1: ENVELOPE OPENING OVERLAY -->
+        <section id="envelopeSection" class="flex flex-col items-center justify-center min-h-[85vh] w-full max-w-2xl text-center">
+            
+            <div class="mb-8 animate-float">
+                <span class="inline-block bg-pink-100 text-pink-600 font-cute px-4 py-1.5 rounded-full text-sm font-medium tracking-wide shadow-sm border border-pink-200 mb-3">
+                    ✨ You've Got a Special Delivery! ✨
+                </span>
+                <h1 class="font-cursive text-5xl md:text-7xl text-pink-600 drop-shadow-sm">A Birthday Surprise</h1>
+                <p class="text-xs md:text-sm text-pink-400 font-cute mt-1">Tap/Click the envelope below to open</p>
+            </div>
+
+            <!-- Envelope Component -->
+            <div class="envelope-wrapper my-6 glow-effect">
+                <div class="envelope" id="interactiveEnvelope">
+                    <div class="flap"></div>
+                    <div class="letter flex flex-col justify-center items-center">
+                        <i class="fa-solid fa-heart text-pink-400 text-3xl mb-2 animate-bounce"></i>
+                        <h3 class="font-cursive text-3xl text-pink-600 font-bold">Happy Birthday!</h3>
+                        <p class="font-cute text-xs text-purple-400 mt-1">Click again to reveal your full birthday space 💕</p>
+                    </div>
+                    <div class="pocket"></div>
+                    
+                    <!-- Wax Seal Decorative Button -->
+                    <div id="waxSeal" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-pink-500 rounded-full flex items-center justify-center text-white shadow-lg border-2 border-white cursor-pointer hover:scale-110 transition-all">
+                        <i class="fa-solid fa-gift text-lg"></i>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-xs text-gray-400 mt-12 font-cute">💡 Tip: Make sure your sound is turned up!</p>
+        </section>
+
+
+        <!-- STAGE 2: MAIN BIRTHDAY DASHBOARD / CONTENT (Hidden Initially) -->
+        <section id="mainContent" class="hidden w-full max-w-4xl opacity-0 transition-opacity duration-1000 flex-col items-center gap-10">
+
+            <!-- Hero Banner Card -->
+            <div class="glass-card w-full rounded-3xl p-6 md:p-10 text-center relative overflow-hidden border border-white">
+                <div class="absolute -top-10 -right-10 w-32 h-32 bg-pink-300 rounded-full filter blur-2xl opacity-40"></div>
+                <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-purple-300 rounded-full filter blur-2xl opacity-40"></div>
+
+                <div class="inline-block bg-white/80 px-4 py-1 rounded-full text-xs font-cute text-pink-500 mb-4 shadow-sm">
+                    🎂 Celebrating Priceless Moments 🎂
+                </div>
+                
+                <!-- EDITABLE NAME HERE -->
+                <h1 class="font-cursive text-6xl md:text-8xl text-pink-600 mb-2 leading-tight">
+                    Wish You A Very Happy Birthday, <span id="birthdayName " class="underline decoration-pink-300 decoration-wavy">Miss Shreyashi💖 </span>! 🎉
+                </h1>
+                
+                <p class="font-cute text-base md:text-xl text-purple-600 max-w-xl mx-auto mt-2">
+                    Wishing you a day filled with soft smiles, magic moments, endless sweetness, and all the love in the universe! ✨
+                </p>
+
+                <!-- Trigger Interactive Buttons -->
+                <div class="flex flex-wrap justify-center gap-3 mt-6">
+                    <button onclick="triggerFireworks()" class="bg-gradient-to-r from-pink-400 to-rose-400 hover:from-pink-500 hover:to-rose-500 text-white font-cute px-5 py-2.5 rounded-full shadow-md hover:shadow-lg transition-all text-sm flex items-center gap-2 transform active:scale-95">
+                        <i class="fa-solid fa-sparkles"></i> Launch Fireworks
+                    </button>
+                    <button onclick="triggerConfetti()" class="bg-gradient-to-r from-purple-400 to-pink-400 hover:from-purple-500 hover:to-pink-500 text-white font-cute px-5 py-2.5 rounded-full shadow-md hover:shadow-lg transition-all text-sm flex items-center gap-2 transform active:scale-95">
+                        <i class="fa-solid fa-gifts"></i> Throw Confetti
+                    </button>
+                    <button onclick="triggerHearts()" class="bg-gradient-to-r from-rose-400 to-pink-300 hover:from-rose-500 hover:to-pink-400 text-white font-cute px-5 py-2.5 rounded-full shadow-md hover:shadow-lg transition-all text-sm flex items-center gap-2 transform active:scale-95">
+                        <i class="fa-solid fa-heart"></i> Shower Love
+                    </button>
+                </div>
+            </div>
+
+            <!-- PHOTO GALLERY / POLAROID SECTION -->
+            <div class="w-full">
+                <div class="text-center mb-6">
+                    <h2 class="font-cursive text-4xl text-pink-600">Sweet Memories Gallery</h2>
+                    <p class="font-cute text-xs text-gray-500">Tap photos to zoom & scatter sparkles!</p>
+                </div>
+
+                <!-- PHOTO GRID (Replace images in src attribute) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-2">
+                    
+                    <!-- Polaroid 1 -->
+                    <div class="polaroid transform -rotate-3 cursor-pointer" onclick="zoomPhoto(this)">
+                        <div class="relative overflow-hidden rounded-md aspect-square bg-pink-100">
+                            <!-- EDITABLE PHOTO 1: Replace URL with recipient's photo -->
+                            <img src="https://github.com/Avi-99/birthday/blob/main/p3.jpeg" 
+                                 alt="Lovable" 
+                                 class="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                                 onerror="this.src='https://placehold.co/400x400/ffd1dc/ff69b4?text=Memory+1'">
+                        </div>
+                        <p class="font-cursive text-2xl text-center text-pink-600 mt-3">Pure Joy ✨</p>
+                    </div>
+
+                    <!-- Polaroid 2 -->
+                    <div class="polaroid transform rotate-2 cursor-pointer" onclick="zoomPhoto(this)">
+                        <div class="relative overflow-hidden rounded-md aspect-square bg-purple-100">
+                            <!-- EDITABLE PHOTO 2: Replace URL -->
+                            <img src="https://github.com/Avi-99/birthday/blob/main/p1.jpeg" 
+                                 alt="Pretty" 
+                                 class="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                                 onerror="this.src='https://placehold.co/400x400/e6e6fa/8a2be2?text=Memory+2'">
+                        </div>
+                        <p class="font-cursive text-2xl text-center text-purple-600 mt-3">Sweetest Moments 🎂</p>
+                    </div>
+
+                    <!-- Polaroid 3 -->
+                    <div class="polaroid transform -rotate-2 cursor-pointer sm:col-span-2 md:col-span-1" onclick="zoomPhoto(this)">
+                        <div class="relative overflow-hidden rounded-md aspect-square bg-pink-100">
+                            <!-- EDITABLE PHOTO 3: Replace URL -->
+                            <img src="https://github.com/Avi-99/birthday/blob/main/p2.jpeg" 
+                                 alt="Sweet" 
+                                 class="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                                 onerror="this.src='https://placehold.co/400x400/e0f8e7/2e8b57?text=Memory+3'">
+                        </div>
+                        <p class="font-cursive text-2xl text-center text-pink-600 mt-3">Shine Bright 🌟</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- BIRTHDAY LETTER / WISH CARD SECTION -->
+            <div class="glass-card w-full rounded-3xl p-6 md:p-8 relative border border-white">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-full bg-pink-200 flex items-center justify-center text-pink-600">
+                        <i class="fa-solid fa-envelope-open-text text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-cute font-semibold text-lg text-pink-700">A Message From The Heart</h3>
+                        <p class="text-xs text-gray-400">Written specially for you</p>
+                    </div>
+                </div>
+
+                <!-- EDITABLE BIRTHDAY LETTER TEXT -->
+                <div class="font-body text-gray-600 text-base leading-relaxed space-y-4 bg-white/50 p-6 rounded-2xl border border-pink-100">
+                    <p>
+                        Dear <span class="font-semibold text-pink-600">Birthday Girl</span>,
+                    </p>
+                    <p>
+                        On this magical day, I want to remind you how unbelievably special and wonderful you are to everyone around you. Your laughter lights up the room, and your kindness makes the world so much warmer.
+                    </p>
+                    <p>
+                        May this new chapter bring you endless adventures, cute moments, good health, and all the happiness your heart can hold. Keep glowing and being your amazing self!
+                    </p>
+					<p>
+					    Sustho thako, bhalo thako & khub taratari ekta chakri hoye jaak tomar etai pray korbo 💕. Stay happy & stay blessed.
+					</p>
+					<p>
+					    You have a beautiful heart💕.
+						Keep it safe & keep smiling.
+					</p>
+                    <p class="font-cursive text-2xl text-pink-600 text-right pt-2">
+                        With lots of love & hugs 💕
+                    </p>
+                </div>
+            </div>
+
+            <!-- WISH BLOW CANDLE INTERACTIVE WIDGET -->
+            <div class="glass-card w-full rounded-3xl p-6 text-center border border-white">
+                <h3 class="font-cursive text-3xl text-pink-600 mb-2">Make a Birthday Wish! ✨</h3>
+                <p class="font-cute text-xs text-gray-500 mb-4">Tap the candle flame to blow it out!</p>
+                
+                <div class="inline-flex flex-col items-center justify-center cursor-pointer my-2" id="candleWidget" onclick="blowCandle()">
+                    <!-- Candle Flame -->
+                    <div id="flame" class="w-4 h-6 bg-gradient-to-t from-yellow-500 via-orange-400 to-yellow-200 rounded-full animate-bounce shadow-[0_0_15px_#ffb703]"></div>
+                    <!-- Candle Body -->
+                    <div class="w-6 h-20 bg-gradient-to-r from-pink-200 via-pink-300 to-pink-200 rounded-t-sm shadow-inner relative border-b-4 border-pink-400">
+                        <div class="w-full h-2 bg-purple-200 opacity-60 my-2"></div>
+                        <div class="w-full h-2 bg-purple-200 opacity-60 my-4"></div>
+                    </div>
+                    <!-- Cake Top -->
+                    <div class="w-24 h-6 bg-pink-100 rounded-full border-t-2 border-white shadow-sm -mt-1"></div>
+                </div>
+
+                <p id="wishStatus" class="font-cute text-sm text-pink-500 mt-2 font-medium">The candle is glowing bright...</p>
+            </div>
+
+            <!-- Footer -->
+            <footer class="text-center font-cute text-xs text-pink-400 py-6">
+                Created with 💖 especially for your magical day.
+            </footer>
+
+        </section>
+
+    </main>
+
+    <!-- PHOTO MODAL / ZOOM OVERLAY -->
+    <div id="photoModal" class="fixed inset-0 bg-black/70 z-50 hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4" onclick="closePhotoModal()">
+        <div class="max-w-lg w-full bg-white p-4 rounded-2xl shadow-2xl relative" onclick="event.stopPropagation()">
+            <button onclick="closePhotoModal()" class="absolute -top-3 -right-3 bg-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center shadow-lg font-bold">✕</button>
+            <img id="modalImg" src="" alt="Zoomed Photo" class="w-full h-auto max-h-[75vh] object-contain rounded-lg">
+            <p id="modalCaption" class="font-cursive text-3xl text-center text-pink-600 mt-3"></p>
+        </div>
+    </div>
+
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        /* ====================================================================
+           1. CANVAS & PARTICLES ENGINE (Stars, Hearts, Butterflies, Fireworks)
+           ==================================================================== */
+        const canvas = document.getElementById('fxCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        // Particle Storage
+        const stars = [];
+        const floatingHearts = [];
+        const butterflies = [];
+        const fireworks = [];
+        const confetti = [];
+
+        // Sparkle Stars Setup
+        for (let i = 0; i < 60; i++) {
+            stars.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                size: Math.random() * 2 + 1,
+                alpha: Math.random(),
+                speed: Math.random() * 0.02 + 0.005
+            });
+        }
+
+        // Animated Butterflies Class
+        class Butterfly {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 12 + 10;
+                this.vx = (Math.random() - 0.5) * 1.2;
+                this.vy = (Math.random() - 0.5) * 1.2;
+                this.wingAngle = 0;
+                this.wingSpeed = Math.random() * 0.15 + 0.1;
+                this.color = ['#FFB6C1', '#E6E6FA', '#FFD1DC', '#B0E0E6'][Math.floor(Math.random() * 4)];
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.wingAngle += this.wingSpeed;
+
+                if (this.x < -20) this.x = width + 20;
+                if (this.x > width + 20) this.x = -20;
+                if (this.y < -20) this.y = height + 20;
+                if (this.y > height + 20) this.y = -20;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.fillStyle = this.color;
+                
+                // Left & Right Wings flapping
+                const wingScale = Math.sin(this.wingAngle);
+                
+                ctx.beginPath();
+                ctx.ellipse(-this.size/2 * wingScale, 0, this.size/2 * Math.abs(wingScale), this.size, 0.3, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.ellipse(this.size/2 * wingScale, 0, this.size/2 * Math.abs(wingScale), this.size, -0.3, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < 8; i++) butterflies.push(new Butterfly());
+
+        // Spawn Floating Hearts
+        function spawnHeart() {
+            if (floatingHearts.length < 25) {
+                floatingHearts.push({
+                    x: Math.random() * width,
+                    y: height + 20,
+                    size: Math.random() * 15 + 10,
+                    vy: Math.random() * 1.5 + 0.8,
+                    vx: Math.sin(Math.random() * Math.PI) * 0.5,
+                    alpha: Math.random() * 0.5 + 0.5,
+                    color: ['#FFB6C1', '#FF69B4', '#FFD1DC', '#DB7093'][Math.floor(Math.random() * 4)]
+                });
+            }
+        }
+        setInterval(spawnHeart, 600);
+
+        // Firework Particle Class
+        class FireworkParticle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 6 + 2;
+                this.vx = Math.cos(angle) * speed;
+                this.vy = Math.sin(angle) * speed;
+                this.alpha = 1;
+                this.friction = 0.95;
+                this.gravity = 0.1;
+            }
+
+            update() {
+                this.vx *= this.friction;
+                this.vy *= this.friction;
+                this.vy += this.gravity;
+                this.x += this.vx;
+                this.y += this.vy;
+                this.alpha -= 0.015;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = Math.max(this.alpha, 0);
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        // Trigger FX Functions
+        function triggerFireworks() {
+            const colors = ['#FF69B4', '#FFD1DC', '#E6E6FA', '#FFB6C1', '#FFF0F5', '#FF1493'];
+            for (let f = 0; f < 3; f++) {
+                setTimeout(() => {
+                    const cx = Math.random() * (width * 0.8) + width * 0.1;
+                    const cy = Math.random() * (height * 0.5) + height * 0.1;
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    for (let i = 0; i < 50; i++) {
+                        fireworks.push(new FireworkParticle(cx, cy, color));
+                    }
+                }, f * 250);
+            }
+        }
+
+        function triggerConfetti() {
+            const colors = ['#FFB6C1', '#E6E6FA', '#FFD1DC', '#B0E0E6', '#FFF0F5'];
+            for (let i = 0; i < 80; i++) {
+                confetti.push({
+                    x: Math.random() * width,
+                    y: -10,
+                    size: Math.random() * 8 + 4,
+                    vx: (Math.random() - 0.5) * 3,
+                    vy: Math.random() * 3 + 2,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    rotation: Math.random() * 360,
+                    vRot: Math.random() * 10 - 5
+                });
+            }
+        }
+
+        function triggerHearts() {
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => spawnHeart(), i * 50);
+            }
+        }
+
+        // Main Animation Loop
+        function renderFX() {
+            ctx.clearRect(0, 0, width, height);
+
+            // 1. Render Stars
+            stars.forEach(star => {
+                star.alpha += star.speed;
+                if (star.alpha > 1 || star.alpha < 0) star.speed = -star.speed;
+                ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(star.alpha)})`;
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // 2. Render Floating Hearts
+            for (let i = floatingHearts.length - 1; i >= 0; i--) {
+                const h = floatingHearts[i];
+                h.y -= h.vy;
+                h.x += h.vx;
+                ctx.save();
+                ctx.globalAlpha = h.alpha;
+                ctx.fillStyle = h.color;
+                ctx.font = `${h.size}px serif`;
+                ctx.fillText('💖', h.x, h.y);
+                ctx.restore();
+
+                if (h.y < -30) floatingHearts.splice(i, 1);
+            }
+
+            // 3. Render Butterflies
+            butterflies.forEach(b => {
+                b.update();
+                b.draw();
+            });
+
+            // 4. Render Fireworks
+            for (let i = fireworks.length - 1; i >= 0; i--) {
+                const p = fireworks[i];
+                p.update();
+                p.draw();
+                if (p.alpha <= 0) fireworks.splice(i, 1);
+            }
+
+            // 5. Render Confetti
+            for (let i = confetti.length - 1; i >= 0; i--) {
+                const c = confetti[i];
+                c.x += c.vx;
+                c.y += c.vy;
+                c.rotation += c.vRot;
+
+                ctx.save();
+                ctx.translate(c.x, c.y);
+                ctx.rotate((c.rotation * Math.PI) / 180);
+                ctx.fillStyle = c.color;
+                ctx.fillRect(-c.size / 2, -c.size / 2, c.size, c.size);
+                ctx.restore();
+
+                if (c.y > height + 20) confetti.splice(i, 1);
+            }
+
+            requestAnimationFrame(renderFX);
+        }
+        renderFX();
+
+
+        /* ====================================================================
+           2. WEB AUDIO SYNTHESIZER (Dreamy Soft Birthday Lullaby Loop)
+           ==================================================================== */
+        let audioCtx = null;
+        let isPlaying = false;
+        let audioTimer = null;
+
+        function initAudio() 
+		{
+            if (!audioCtx) 
+			{
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+				audioCtx = new ('C:\Users\Palas\OneDrive\Desktop\avee\coding\song.mp3')();
+				// Inside your JavaScript script tag where the audio is loaded:
+                 const backgroundMusic = new Audio('C:\Users\Palas\OneDrive\Desktop\avee\coding\song.mp3'); 
+                // Or if placed in an audio folder: 'audio/mysong.mp3'
+                   backgroundMusic.loop = true;
+            }
+        }
+
+        // Soft music notes sequence (Birthday tune in soft pleasant frequency)
+        const notes = [
+            { note: 261.63, duration: 0.4 }, // C4
+            { note: 261.63, duration: 0.4 }, // C4
+            { note: 293.66, duration: 0.8 }, // D4
+            { note: 261.63, duration: 0.8 }, // C4
+            { note: 349.23, duration: 0.8 }, // F4
+            { note: 329.63, duration: 1.2 }, // E4
+            
+            { note: 261.63, duration: 0.4 },
+            { note: 261.63, duration: 0.4 },
+            { note: 293.66, duration: 0.8 },
+            { note: 261.63, duration: 0.8 },
+            { note: 392.00, duration: 0.8 }, // G4
+            { note: 349.23, duration: 1.2 }, // F4
+        ];
+
+        let noteIdx = 0;
+
+        function playNextNote() {
+            if (!isPlaying || !audioCtx) return;
+
+            const current = notes[noteIdx];
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            osc.type = 'sine'; // Smooth dreamy tone
+            osc.frequency.setValueAtTime(current.note, audioCtx.currentTime);
+
+            // Gentle Envelope
+            gain.gain.setValueAtTime(0, audioCtx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.15, audioCtx.currentTime + 0.1);
+            gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + current.duration);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.start();
+            osc.stop(audioCtx.currentTime + current.duration);
+
+            noteIdx = (noteIdx + 1) % notes.length;
+            audioTimer = setTimeout(playNextNote, current.duration * 850);
+        }
+
+        function toggleMusic() {
+            initAudio();
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            const musicText = document.getElementById('musicText');
+            const musicIcon = document.getElementById('musicIcon');
+
+            if (isPlaying) {
+                isPlaying = false;
+                clearTimeout(audioTimer);
+                musicText.innerText = "Play Music";
+                musicIcon.classList.remove('animate-spin');
+            } else {
+                isPlaying = true;
+                playNextNote();
+                musicText.innerText = "Pause Music";
+                musicIcon.classList.add('animate-spin');
+            }
+        }
+
+        document.getElementById('musicToggle').addEventListener('click', toggleMusic);
+
+
+        /* ====================================================================
+           3. INTERACTIVE ENVELOPE & STEP NAVIGATION
+           ==================================================================== */
+        const envelope = document.getElementById('interactiveEnvelope');
+        const envelopeSection = document.getElementById('envelopeSection');
+        const mainContent = document.getElementById('mainContent');
+        let envelopeState = 0; // 0: Closed, 1: Flap Opened, 2: Transitioned
+
+        envelope.addEventListener('click', handleEnvelopeClick);
+
+        function handleEnvelopeClick() {
+            initAudio(); // Initialize audio context on touch/click
+
+            if (envelopeState === 0) {
+                // Step 1: Open Flap
+                envelope.classList.add('open');
+                envelopeState = 1;
+                
+                // Launch initial celebration FX
+                triggerFireworks();
+                triggerConfetti();
+
+                // Auto-start music on initial click
+                if (!isPlaying) toggleMusic();
+
+            } else if (envelopeState === 1) {
+                // Step 2: Hide Envelope, Reveal Main Content Screen
+                envelopeState = 2;
+                envelopeSection.style.transition = 'all 0.8s ease';
+                envelopeSection.style.opacity = '0';
+                envelopeSection.style.transform = 'scale(0.9)';
+
+                setTimeout(() => {
+                    envelopeSection.classList.add('hidden');
+                    mainContent.classList.remove('hidden');
+                    
+                    // Smooth Fade In Main Content
+                    setTimeout(() => {
+                        mainContent.classList.remove('opacity-0');
+                        mainContent.classList.add('opacity-100');
+                        triggerFireworks();
+                    }, 50);
+
+                }, 800);
+            }
+        }
+
+
+        /* ====================================================================
+           4. GALLERY ZOOM MODAL & CANDLE INTERACTION
+           ==================================================================== */
+        function zoomPhoto(element) {
+            const img = element.querySelector('img');
+            const caption = element.querySelector('p').innerText;
+            const modal = document.getElementById('photoModal');
+            const modalImg = document.getElementById('modalImg');
+            const modalCaption = document.getElementById('modalCaption');
+
+            modalImg.src = img.src;
+            modalCaption.innerText = caption;
+
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
+
+            triggerHearts();
+        }
+
+        function closePhotoModal() {
+            const modal = document.getElementById('photoModal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        function blowCandle() {
+            const flame = document.getElementById('flame');
+            const wishStatus = document.getElementById('wishStatus');
+
+            if (flame.style.display !== 'none') {
+                flame.style.display = 'none';
+                wishStatus.innerText = "✨ Your wish has been sent to the stars! ✨";
+                wishStatus.classList.add('text-purple-600', 'font-bold');
+                triggerFireworks();
+                triggerConfetti();
+            } else {
+                flame.style.display = 'block';
+                wishStatus.innerText = "The candle is glowing bright...";
+                wishStatus.classList.remove('text-purple-600', 'font-bold');
+            }
+        }
+
+        // Magic FX toggle button
+        document.getElementById('fxToggle').addEventListener('click', () => {
+            triggerFireworks();
+            triggerConfetti();
+            triggerHearts();
+        });
+    </script>
+</body>
+</html>
