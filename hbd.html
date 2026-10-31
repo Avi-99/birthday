@@ -676,11 +676,7 @@
             if (!audioCtx) 
 			{
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-				audioCtx = new ('C:\Users\Palas\OneDrive\Desktop\avee\coding\song.mp3')();
-				// Inside your JavaScript script tag where the audio is loaded:
-                 const backgroundMusic = new Audio('C:\Users\Palas\OneDrive\Desktop\avee\coding\song.mp3'); 
-                // Or if placed in an audio folder: 'audio/mysong.mp3'
-                   backgroundMusic.loop = true;
+                backgroundMusic.loop = true;
             }
         }
 
